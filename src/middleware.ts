@@ -35,3 +35,8 @@ export async function middleware(req: NextRequest) {
   }
   return res;
 }
+
+// Only run middleware on these paths — explicitly exclude /api/socket and static files
+export const config = {
+  matcher: ['/dashboard/:path*', '/login', '/signup', '/'],
+};

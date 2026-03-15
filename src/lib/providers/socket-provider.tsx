@@ -29,6 +29,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       {
         path: '/api/socket/io',
         addTrailingSlash: false,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 3000,
       }
     );
 

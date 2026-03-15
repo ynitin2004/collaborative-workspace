@@ -1,18 +1,17 @@
 'use server';
 
 import { z } from 'zod';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { FormSchema } from '../types';
 import { cookies } from 'next/headers';
 import db from '../supabase/db';
 import { users } from '../supabase/schema';
-import { eq } from 'drizzle-orm';
 
 export async function actionLoginUser({
   email,
   password,
 }: z.infer<typeof FormSchema>) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerActionClient({ cookies });
   const response = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -24,7 +23,7 @@ export async function actionSignUpUser({
   email,
   password,
 }: z.infer<typeof FormSchema>) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerActionClient({ cookies });
   const { data } = await supabase
     .from('users')
     .select('*')
