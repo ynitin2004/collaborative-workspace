@@ -23,8 +23,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     console.log('Initializing Socket.IO client');
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
     const socketInstance = new (ClientIO as any)(
-      process.env.NEXT_PUBLIC_SITE_URL!,
+      siteUrl,
       {
         path: '/api/socket/io',
         addTrailingSlash: false,
