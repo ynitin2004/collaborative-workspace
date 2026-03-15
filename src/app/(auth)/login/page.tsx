@@ -37,13 +37,22 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
     formData
   ) => {
-    const { error } = await actionLoginUser(formData);
-    if (error) {
-      form.reset();
-      setSubmitError(error.message);
-      return;
+    console.log('🚀 Login attempt:', formData.email);
+    try {
+      const response = await actionLoginUser(formData);
+      console.log('📦 Auth Response:', response);
+      if (response.error) {
+        console.error('❌ Auth Error:', response.error.message);
+        form.reset();
+        setSubmitError(response.error.message);
+        return;
+      }
+      console.log('✅ Login successful, redirecting to /dashboard...');
+      router.replace('/dashboard');
+    } catch (e: any) {
+      console.error('💥 Unexpected Login Error:', e);
+      setSubmitError(e.message || 'An unexpected error occurred');
     }
-    router.replace('/dashboard');
   };
 
   return (
