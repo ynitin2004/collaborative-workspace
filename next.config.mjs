@@ -3,9 +3,15 @@ const nextConfig = {
     experimental: {
         serverActions: true,
     },
-    images : {
-        domains : ['rvrmekwpnqigmqipsaho.supabase.co']
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '**',
+            },
+        ],
     },
+    output: 'standalone',
 };
 
 export default nextConfig;

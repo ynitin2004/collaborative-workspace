@@ -13,8 +13,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY src ./src
 COPY public ./public
 COPY migrations ./migrations
-COPY package.json next.config.js tsconfig.json drizzle.config.ts ./
-COPY tailwind.config.js tailwind.config.ts components.json ./
+COPY package.json next.config.mjs tsconfig.json drizzle.config.ts ./
+COPY tailwind.config.js tailwind.config.ts postcss.config.js components.json ./
 RUN npm run build
 
 # Stage 3: run
@@ -31,7 +31,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
 # Include the necessary config files for runtime
-COPY --from=builder /app/next.config.js ./  
+COPY --from=builder /app/next.config.mjs ./  
 COPY --from=builder /app/drizzle.config.ts ./  
 COPY --from=builder /app/migrations ./migrations
 
