@@ -71,13 +71,19 @@ const Signup = () => {
 
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async ({ email, password }: z.infer<typeof FormSchema>) => {
-    const { error } = await actionSignUpUser({ email, password });
-    if (error) {
-      setSubmitError(error.message);
+    const response = await actionSignUpUser({ email, password });
+    if (response.error) {
+      setSubmitError(response.error.message);
       form.reset();
       return;
     }
-    setConfirmation(true);
+    // If Supabase returned a session (email confirmation disabled), redirect to login
+    if (response.data?.session) {
+      router.replace('/login');
+    } else {
+      // Email confirmation is enabled — show check-your-email message
+      setConfirmation(true);
+    }
   };
 
   return (
